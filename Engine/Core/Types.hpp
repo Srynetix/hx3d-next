@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cfloat>
+#include <typeinfo>
 
 namespace hx3d {
 
@@ -17,5 +18,17 @@ typedef int64_t   S64;
 
 typedef float     F32;
 typedef double    F64;
+
+template <class Type>
+const char* getTypeName() {
+  const std::type_info& type = typeid(Type);
+  return type.name();
+}
+
+template <class Type>
+const char* getTypeName(const Type& t) {
+  const std::type_info& type = typeid(t);
+  return type.name();
+}
 
 }

@@ -7,4 +7,4 @@ set(SOURCES
 )
 
 add_library(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} hx3d-debug hx3d-window)
+target_link_libraries(${PROJECT_NAME} hx3d-window hx3d-debug)

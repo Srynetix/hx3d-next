@@ -1,6 +1,7 @@
 #pragma once
 
 namespace hx3d {
+namespace Debug {
 
 class CrashHandler {
 public:
@@ -8,4 +9,5 @@ public:
   static void handlerFunction(int signum);
 };
 
+}
 }

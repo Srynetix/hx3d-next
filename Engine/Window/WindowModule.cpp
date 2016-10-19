@@ -1,21 +1,31 @@
 #include <Engine/Window/WindowModule.hpp>
 
+#include <Engine/Core/Engine.hpp>
 #include <Engine/Window/Window.hpp>
+#include <Engine/Window/Game.hpp>
 #include <Engine/Debug/Logging.hpp>
 
 #include <SDL.h>
 
 namespace hx3d {
+namespace Window {
 
-void WindowModule::setUp() {
-  const auto& logger = Log.getLogger(Logging::kWindow);
+void WindowModule::setUp(Core::Engine* p_engine) {
+  const auto& logger = HX3D_LOGGER(kWindow);
 
   if (SDL_Init(SDL_INIT_VIDEO) == -1) {
     logger.error("SDL Init error: %s", SDL_GetError());
     exit(1);
   }
 
-  m_window = new Window(1024, 768);
+  // Window size and title
+  const auto& config_handler = p_engine->getConfigHandler();
+  const auto& config_parser = config_handler.getParser();
+  U32 width = config_parser.extract<U32>("window", "width");
+  U32 height = config_parser.extract<U32>("window", "height");
+  std::string title = config_parser.extract<std::string>("window", "title");
+
+  m_window = new Window(width, height, title.c_str());
 }
 
 void WindowModule::tearDown() {
@@ -25,4 +35,9 @@ void WindowModule::tearDown() {
   SDL_Quit();
 }
 
+void WindowModule::runGame(Game* p_game) {
+  m_window->runGame(p_game);
+}
+
+}
 }

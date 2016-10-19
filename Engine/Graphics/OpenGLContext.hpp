@@ -5,6 +5,7 @@
 #include <SDL.h>
 
 namespace hx3d {
+namespace Graphics {
 
 class OpenGLContext {
 public:
@@ -14,8 +15,8 @@ public:
   void setMultisampleBuffers(const U8 p_value);
   void setMultisampleSamples(const U8 p_value);
 
-  void createContext(SDL_Window* p_window);
   void setViewport(const U16 p_width, const U16 p_height);
+  void createContext(SDL_Window* p_window);
   void swapWindow(SDL_Window* p_window);
 
   void setUp();
@@ -31,4 +32,5 @@ private:
   SDL_GLContext m_context;
 };
 
+}
 }

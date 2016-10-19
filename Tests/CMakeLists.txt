@@ -1,2 +1,2 @@
+add_subdirectory(Common)
 add_subdirectory(Desktop)
-add_subdirectory(Android)

@@ -2,11 +2,13 @@
 
 #include <Engine/Debug/Logger.hpp>
 #include <Engine/Core/Types.hpp>
+#include <Engine/Utils/SingletonHolder.hpp>
 
 #include <chrono>
 #include <map>
 
 namespace hx3d {
+namespace Debug {
 
 class Logging {
 public:
@@ -16,6 +18,7 @@ public:
     kCore,
     kGame,
     kTests,
+    kUtils,
     kUnknown
   };
 
@@ -25,13 +28,18 @@ public:
   void setLoggerLevel(const Category p_category, const Logger::Level p_level);
   const Logger& getLogger(const Category p_category) const;
 
-  const F32 getElapsedSeconds() const;
+  static F32 getElapsedSeconds();
 
 private:
   std::map<const Category, Logger*> m_loggers;
-  std::chrono::time_point<std::chrono::system_clock> m_startingTimePoint;
+
+  static std::chrono::time_point<std::chrono::system_clock> m_startingTimePoint;
 };
 
-static Logging Log;
+typedef Utils::SingletonHolder<Logging> SLogging;
 
 }
+}
+
+
+#define HX3D_LOGGER(e) hx3d::Debug::SLogging::Instance().getLogger(hx3d::Debug::Logging::##e)

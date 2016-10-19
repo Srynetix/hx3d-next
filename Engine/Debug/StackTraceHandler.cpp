@@ -7,6 +7,7 @@
 #endif
 
 namespace hx3d {
+namespace Debug {
 
 StackTraceHandler::StackTraceHandler() {}
 
@@ -17,7 +18,7 @@ void StackTraceHandler::report() {
   public:
     LocalStackWalker():
       StackWalker(RetrieveVerbose),
-      m_logger(Log.getLogger(Logging::kCore))
+      m_logger(HX3D_LOGGER(kCore))
       {}
 
     virtual void OnOutput(LPCSTR p_szText) {
@@ -46,4 +47,5 @@ void StackTraceHandler::report() {
 }
 #endif
 
+}
 }

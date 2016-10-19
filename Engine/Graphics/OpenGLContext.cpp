@@ -4,6 +4,7 @@
 #include <Engine/Debug/Logging.hpp>
 
 namespace hx3d {
+namespace Graphics {
 
 OpenGLContext::OpenGLContext():
   m_attrDoubleBuffer(true),
@@ -26,7 +27,7 @@ void OpenGLContext::setMultisampleBuffers(const U8 p_value) {
 void OpenGLContext::createContext(SDL_Window* p_window) {
   SDL_GL_CreateContext(p_window);
 
-  const auto& logger = Log.getLogger(Logging::kCore);
+  const auto& logger = HX3D_LOGGER(kGraphics);
   logger.info("Initializing OpenGL version %s", showGLVersion());
 }
 
@@ -78,4 +79,5 @@ const char* OpenGLContext::showGLVersion() {
   }
 }
 
+}
 }

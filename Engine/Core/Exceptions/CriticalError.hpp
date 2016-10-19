@@ -4,7 +4,7 @@
 #include <string>
 
 namespace hx3d {
-namespace exceptions {
+namespace Exceptions {
 
 class CriticalError: public Exception {
 public:

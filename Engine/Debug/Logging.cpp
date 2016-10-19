@@ -1,17 +1,19 @@
 #include <Engine/Debug/Logging.hpp>
-#include <Engine/Core/Exceptions/NotFound.hpp>
+#include <Engine/Core/Exceptions/KeyNotFound.hpp>
 
 #include <iostream>
 
 namespace hx3d {
+namespace Debug {
+
+std::chrono::time_point<std::chrono::system_clock> Logging::m_startingTimePoint = std::chrono::system_clock::now();
 
 Logging::Logging() {
-  m_startingTimePoint = std::chrono::system_clock::now();
-
   m_loggers[kCore]      = new Logger("Core", Logger::kVerbose);
   m_loggers[kWindow]    = new Logger("Window", Logger::kVerbose);
   m_loggers[kGraphics]  = new Logger("Graphics", Logger::kVerbose);
-  m_loggers[kGame]      = new Logger("Game", Logger::kVerbose);
+  m_loggers[kGame]		  = new Logger("Game", Logger::kVerbose);
+  m_loggers[kUtils]     = new Logger("Utils", Logger::kVerbose);
   m_loggers[kTests]     = new Logger("Tests", Logger::kVerbose);
 }
 
@@ -36,12 +38,13 @@ const Logger& Logging::getLogger(const Category p_category) const {
     return *(logger->second);
   }
 
-  throw exceptions::NotFound<Logger, Category>(p_category);
+  throw Exceptions::KeyNotFound<Logger, Category>(p_category);
 }
 
-const F32 Logging::getElapsedSeconds() const {
+F32 Logging::getElapsedSeconds() {
   auto now = std::chrono::system_clock::now();
   return (F32)(std::chrono::duration_cast<std::chrono::milliseconds>(now - m_startingTimePoint).count() / 1000.f);
 }
 
+}
 }

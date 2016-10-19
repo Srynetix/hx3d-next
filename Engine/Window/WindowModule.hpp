@@ -4,14 +4,24 @@
 
 namespace hx3d {
 
+namespace Core {
+  class Engine;
+}
+
+namespace Window {
+
 class Window;
-class WindowModule: public Module {
+class Game;
+class WindowModule: public Core::Module {
 public:
-  virtual void setUp() override;
+  virtual void setUp(Core::Engine* p_engine) override;
   virtual void tearDown() override;
+
+  void runGame(Game* p_game);
 
 private:
   Window* m_window;
 };
 
+}
 }

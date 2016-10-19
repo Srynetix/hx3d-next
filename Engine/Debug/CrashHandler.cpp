@@ -4,6 +4,7 @@
 #include <csignal>
 
 namespace hx3d {
+namespace Debug {
 
 CrashHandler::CrashHandler() {
   // Define signals
@@ -15,7 +16,7 @@ CrashHandler::CrashHandler() {
 }
 
 void CrashHandler::handlerFunction(int signum) {
-  const Logger& logger = Log.getLogger(Logging::kCore);
+  const Logger& logger = HX3D_LOGGER(kCore);
 
   const char* name = nullptr;
   switch (signum)
@@ -34,4 +35,5 @@ void CrashHandler::handlerFunction(int signum) {
   exit(signum);
 }
 
+}
 }
