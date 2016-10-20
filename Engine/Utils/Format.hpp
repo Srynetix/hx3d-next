@@ -6,7 +6,7 @@ namespace hx3d {
 namespace Utils {
 
 template <class... Args, class Current>
-std::string sformat(const std::string& p_str, const Current& p_val, Args&&... args);
+std::string Format(const std::string& p_str, const Current& p_val, Args&&... args);
 
 }
 }

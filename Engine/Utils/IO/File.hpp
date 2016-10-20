@@ -5,6 +5,9 @@
 namespace hx3d {
 namespace Utils {
 
+template <bool Async>
+class FileHandler;
+
 class File {
 public:
   File();
@@ -18,10 +21,11 @@ public:
 
   //////////////
 
-  static File loadTextFile(const std::string& p_path);
+  template <bool Async>
+  friend class FileHandler;
 
 private:
-
+  static File loadTextFile(const std::string& p_path);
   static std::string getAssetsPath();
 
   std::string m_data;

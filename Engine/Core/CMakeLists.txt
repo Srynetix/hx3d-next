@@ -4,6 +4,7 @@ set(SOURCES
 
   Engine.cpp
   ModuleLoader.cpp
+  Root.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCES})

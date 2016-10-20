@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mutex>
+
 namespace hx3d {
 namespace Debug {
 
@@ -47,6 +49,8 @@ private:
 
   const char* m_name;
   Level m_level;
+  
+  mutable std::mutex m_mutex;
 };
 
 }

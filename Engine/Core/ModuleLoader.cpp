@@ -11,7 +11,7 @@ ModuleLoader::~ModuleLoader() {}
 
 void ModuleLoader::startModule(Module* module) {
   if (module) {
-    module->setUp(m_engine);
+    module->setUp();
   }
 }
 

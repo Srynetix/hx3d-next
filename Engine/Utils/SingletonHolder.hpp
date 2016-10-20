@@ -7,6 +7,8 @@ template <class Type>
 class SingletonHolder {
 public:
   static Type& Instance();
+
+  static void Initialize();
   static void Release();
 
 protected:

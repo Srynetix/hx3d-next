@@ -13,7 +13,7 @@ public:
     Exception(), m_err(p_err) {}
 
   virtual const std::string message() const override {
-    std::string msg = Utils::sformat("Conversion error from %s to %s: ", getTypeName<TypeSrc>(), getTypeName<TypeDst>()) + Utils::to_string(m_err);
+    std::string msg = Utils::Format("Conversion error from %s to %s: ", getTypeName<TypeSrc>(), getTypeName<TypeDst>()) + Utils::ToString(m_err);
 
     return msg;
   }

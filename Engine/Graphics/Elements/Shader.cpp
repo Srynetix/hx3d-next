@@ -1,6 +1,9 @@
 #include <Engine/Graphics/Elements/Shader.hpp>
 #include <Engine/Debug/Logging.hpp>
+
+#include <Engine/Core/Root.hpp>
 #include <Engine/Utils/IO/File.hpp>
+#include <Engine/Utils/IO/FileLoader.hpp>
 
 namespace hx3d {
 namespace Graphics {
@@ -31,8 +34,9 @@ void Shader::loadShader(const std::string& p_pathToShaders) {
 
   logger.info("Loading shader `%s`...", p_pathToShaders);
 
-  Utils::File vertex_file = Utils::File::loadTextFile(vertex_path);
-  Utils::File fragment_file = Utils::File::loadTextFile(fragment_path);
+  auto& loader = Root::Instance().getFileLoader();
+  Utils::File vertex_file = loader.syncLoad(vertex_path);
+  Utils::File fragment_file = loader.syncLoad(fragment_path);
 
   loadShader(vertex_file.getContent(), fragment_file.getContent());
 }

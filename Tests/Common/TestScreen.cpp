@@ -1,5 +1,9 @@
 #include <Tests/Common/TestScreen.hpp>
+#include <Engine/Core/Root.hpp>
 #include <Engine/Debug/Logging.hpp>
+#include <Engine/Utils/IO/FileLoader.hpp>
+
+TestScreen::TestScreen() {}
 
 void TestScreen::onCreate() {
   const auto& logger = HX3D_LOGGER(kTests);

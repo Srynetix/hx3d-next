@@ -12,7 +12,7 @@ public:
     Exception(), m_file(p_file) {}
 
   virtual const std::string message() const override {
-    std::string msg = Utils::sformat("File not found: `%s`", m_file);
+    std::string msg = Utils::Format("File not found: `%s`", m_file);
     return msg;
   }
 

@@ -1,3 +1,5 @@
+#include <Engine/Core/Types.hpp>
+
 namespace hx3d {
 namespace Utils {
 
@@ -11,6 +13,13 @@ Type& SingletonHolder<Type>::Instance() {
   }
 
   return *p_instance;
+}
+
+template <class Type>
+void SingletonHolder<Type>::Initialize() {
+  if (!p_instance) {
+    p_instance = new Type();
+  }
 }
 
 template <class Type>

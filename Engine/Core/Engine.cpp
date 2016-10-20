@@ -1,4 +1,5 @@
 #include <Engine/Core/Engine.hpp>
+#include <Engine/Core/Root.hpp>
 #include <Engine/Debug/Logging.hpp>
 #include <Engine/Window/Game.hpp>
 
@@ -13,12 +14,13 @@ Engine::Engine():
   m_loader(this) {
 
   try {
-	  const auto& core_logger = HX3D_LOGGER(kCore);
-    core_logger.log(Debug::Logger::kInfo, "Loading hx3d %s...", HX3D_VERSION_NAME);
+    const auto& core_logger = HX3D_LOGGER(kCore);
+    core_logger.info("Loading hx3d %s...", HX3D_VERSION_NAME);
+    core_logger.info("Initializing Root...");
 
-    // Loading config
-    core_logger.log(Debug::Logger::kInfo, "Loading engine configuration...");
-    m_engineConfigHandler.parseFromFile("EngineConfig.ini");
+    // Initialize and starting Root
+    Root::Initialize();
+    Root::Instance().Start();
 
     // Starting modules
     m_loader.startModule(&m_windowModule);
@@ -42,7 +44,7 @@ void Engine::runGame(Window::Game* p_game) {
 
   } catch (const std::exception& e) {
 
-    auto game_logger = HX3D_LOGGER(kGame);
+    const auto& game_logger = HX3D_LOGGER(kGame);
     game_logger.error(e.what());
 
     m_stackTraceHandler.report();
@@ -50,15 +52,13 @@ void Engine::runGame(Window::Game* p_game) {
   }
 }
 
-const Utils::INIHandler& Engine::getConfigHandler() const {
-  return m_engineConfigHandler;
-}
-
 Engine::~Engine() {
   const auto& core_logger = HX3D_LOGGER(kCore);
   core_logger.log(Debug::Logger::kInfo, "Engine shutdown.");
 
   m_loader.endModule(&m_windowModule);
+
+  Root::Release();
 }
 
 }

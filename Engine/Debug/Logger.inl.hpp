@@ -22,10 +22,12 @@ void Logger::logv(const bool p_newline, const bool p_criticalExcept, const Level
   if (p_level < m_level)
     return;
 
-  const std::string content = Utils::sformat(p_message, p_args...);
+  std::lock_guard<std::mutex> guard(m_mutex);
+
+  const std::string content = Utils::Format(p_message, p_args...);
 
   if (p_level < kWarn) {
-    std::cout << "[" << std::fixed << std::setprecision(4) << Logging::getElapsedSeconds() << "] " << GetLevelDisplay(p_level) << ": " << content;
+    std::cout << "[" << std::fixed << std::setprecision(4) << Logging::getElapsedSeconds() << "] <" << m_name << "> " << GetLevelDisplay(p_level) << ": " << content;
 
     if (p_newline) {
       std::cout << std::endl;
@@ -37,7 +39,7 @@ void Logger::logv(const bool p_newline, const bool p_criticalExcept, const Level
     if (p_criticalExcept && p_level == kCritical) {
       throw Exceptions::CriticalError(content);
     } else {
-      std::cerr << "[" << std::fixed << std::setprecision(4) << Logging::getElapsedSeconds() << "] " << GetLevelDisplay(p_level) << ": " << content;
+      std::cerr << "[" << std::fixed << std::setprecision(4) << Logging::getElapsedSeconds() << "] <" << m_name << "> " << GetLevelDisplay(p_level) << ": " << content;
 
       if (p_newline) {
         std::cerr << std::endl;

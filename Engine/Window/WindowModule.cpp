@@ -1,6 +1,6 @@
 #include <Engine/Window/WindowModule.hpp>
 
-#include <Engine/Core/Engine.hpp>
+#include <Engine/Core/Root.hpp>
 #include <Engine/Window/Window.hpp>
 #include <Engine/Window/Game.hpp>
 #include <Engine/Debug/Logging.hpp>
@@ -10,7 +10,7 @@
 namespace hx3d {
 namespace Window {
 
-void WindowModule::setUp(Core::Engine* p_engine) {
+void WindowModule::setUp() {
   const auto& logger = HX3D_LOGGER(kWindow);
 
   if (SDL_Init(SDL_INIT_VIDEO) == -1) {
@@ -19,7 +19,7 @@ void WindowModule::setUp(Core::Engine* p_engine) {
   }
 
   // Window size and title
-  const auto& config_handler = p_engine->getConfigHandler();
+  const auto& config_handler = Root::Instance().getEngineConfiguration();
   const auto& config_parser = config_handler.getParser();
   U32 width = config_parser.extract<U32>("window", "width");
   U32 height = config_parser.extract<U32>("window", "height");

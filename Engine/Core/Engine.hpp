@@ -22,12 +22,8 @@ public:
 
   void runGame(Window::Game* p_game);
 
-  const Utils::INIHandler& getConfigHandler() const;
-
 private:
   ModuleLoader m_loader;
-
-  Utils::INIHandler m_engineConfigHandler;
 
   Debug::CrashHandler m_crashHandler;
   Debug::StackTraceHandler m_stackTraceHandler;

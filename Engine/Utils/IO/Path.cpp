@@ -3,7 +3,7 @@
 namespace hx3d {
 namespace Utils {
 
-std::string dirname(const std::string& p_path) {
+std::string Dirname(const std::string& p_path) {
   size_t path_length = p_path.size();
   if (path_length == 0 || p_path[path_length - 1] == '\\' || p_path[path_length - 1] == '/') {
     return p_path;
@@ -23,7 +23,7 @@ std::string dirname(const std::string& p_path) {
   return p_path;
 }
 
-std::string basename(const std::string& p_path) {
+std::string Basename(const std::string& p_path) {
   size_t path_length = p_path.size();
   if (path_length == 0 || p_path[path_length - 1] == '\\' || p_path[path_length - 1] == '/') {
     return p_path;

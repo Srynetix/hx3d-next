@@ -19,6 +19,7 @@ public:
     kGame,
     kTests,
     kUtils,
+    kIO,
     kUnknown
   };
 

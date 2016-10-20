@@ -6,10 +6,10 @@ namespace hx3d {
 namespace Utils {
 
 template <class Type>
-const Type convert(const std::string& p_str);
+const Type Convert(const std::string& p_str);
 
 template <class Type>
-const std::string to_string(const Type p_value);
+const std::string ToString(const Type p_value);
 
 }
 }
