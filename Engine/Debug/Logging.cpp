@@ -9,13 +9,16 @@ namespace Debug {
 std::chrono::time_point<std::chrono::system_clock> Logging::m_startingTimePoint = std::chrono::system_clock::now();
 
 Logging::Logging() {
-  m_loggers[kCore]      = new Logger("Core", Logger::kVerbose);
-  m_loggers[kWindow]    = new Logger("Window", Logger::kVerbose);
-  m_loggers[kGraphics]  = new Logger("Graphics", Logger::kVerbose);
-  m_loggers[kGame]		  = new Logger("Game", Logger::kVerbose);
-  m_loggers[kUtils]     = new Logger("Utils", Logger::kVerbose);
-  m_loggers[kTests]     = new Logger("Tests", Logger::kVerbose);
-  m_loggers[kIO]        = new Logger("IO", Logger::kVerbose);
+  m_loggers[kCore]              = new Logger("Core", Logger::kVerbose);
+  m_loggers[kWindow]            = new Logger("Window", Logger::kVerbose);
+  m_loggers[kGraphics]          = new Logger("Graphics", Logger::kVerbose);
+  m_loggers[kGraphicsLowLevel]  = new Logger("GraphicsLowLevel", Logger::kError);
+  m_loggers[kFont]              = new Logger("Font", Logger::kVerbose);
+  m_loggers[kGame]		          = new Logger("Game", Logger::kVerbose);
+  m_loggers[kUtils]             = new Logger("Utils", Logger::kVerbose);
+  m_loggers[kTests]             = new Logger("Tests", Logger::kVerbose);
+  m_loggers[kIO]                = new Logger("IO", Logger::kVerbose);
+  m_loggers[kResources]         = new Logger("Resources", Logger::kVerbose);
 }
 
 Logging::~Logging() {

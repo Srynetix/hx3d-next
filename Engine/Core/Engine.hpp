@@ -1,11 +1,6 @@
 #pragma once
 
-#include <Engine/Core/ModuleLoader.hpp>
-#include <Engine/Window/WindowModule.hpp>
-
-#include <Engine/Debug/CrashHandler.hpp>
-#include <Engine/Debug/StackTraceHandler.hpp>
-#include <Engine/Utils/Parsers/INIHandler.hpp>
+#include <Engine/Utils/Memory/SmartPtrs.hpp>
 
 namespace hx3d {
 
@@ -20,15 +15,11 @@ public:
   Engine();
   ~Engine();
 
+  void bootEngine();
   void runGame(Window::Game* p_game);
 
 private:
-  ModuleLoader m_loader;
-
-  Debug::CrashHandler m_crashHandler;
-  Debug::StackTraceHandler m_stackTraceHandler;
-
-  Window::WindowModule m_windowModule;
+  HX3D_PIMPL
 };
 
 }

@@ -5,6 +5,9 @@
 #include <Engine/Window/Game.hpp>
 #include <Engine/Debug/Logging.hpp>
 
+#include <Engine/Utils/Parsers/INIParser.hpp>
+#include <Engine/Utils/Parsers/INIHandler.hpp>
+
 #include <SDL.h>
 
 namespace hx3d {
@@ -24,8 +27,9 @@ void WindowModule::setUp() {
   U32 width = config_parser.extract<U32>("window", "width");
   U32 height = config_parser.extract<U32>("window", "height");
   std::string title = config_parser.extract<std::string>("window", "title");
+  bool fullscreen = config_parser.extract<bool>("window", "fullscreen");
 
-  m_window = new Window(width, height, title.c_str());
+  m_window = new Window(width, height, title.c_str(), fullscreen);
 }
 
 void WindowModule::tearDown() {

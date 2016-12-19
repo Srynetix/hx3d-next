@@ -1,22 +1,23 @@
 #pragma once
 
-#include <Engine/Utils/IO/File.hpp>
-#include <Engine/Utils/Parsers/INIParser.hpp>
+#include <string>
+#include <memory>
 
 namespace hx3d {
 namespace Utils {
 
+class INIParser;
 class INIHandler {
 public:
   INIHandler();
+  ~INIHandler();
 
   void parseFromFile(const std::string& p_path);
-
   const INIParser& getParser() const;
 
 private:
-  File m_file;
-  INIParser m_parser;
+  struct Impl;
+  std::unique_ptr<Impl> m_impl;
 };
 
 }

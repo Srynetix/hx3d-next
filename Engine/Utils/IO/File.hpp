@@ -5,31 +5,39 @@
 namespace hx3d {
 namespace Utils {
 
-template <bool Async>
 class FileHandler;
-
 class File {
 public:
   File();
   ~File();
 
-  File(const File& p_file);
-  File& operator=(const File& p_file);
+  enum ContentType {
+    kASCII,
+    kBinary
+  };
 
-  const std::string& getContent() const;
+  File(File&& p_file);
+  File& operator=(File&& p_file);
+
+  char* getContent() const;
+  unsigned char* getUContent() const;
+  const std::string& getStrContent() const;
   const size_t getSize() const;
+
+  void setRawValues(char* p_data, const size_t p_size, const ContentType p_type);
 
   //////////////
 
-  template <bool Async>
   friend class FileHandler;
 
 private:
-  static File loadTextFile(const std::string& p_path);
+  static File loadFile(const std::string& p_path, const ContentType p_type = kASCII);
   static std::string getAssetsPath();
 
-  std::string m_data;
+  char* m_data;
   size_t m_size;
+  ContentType m_type;
+  std::string m_string;
 };
 
 }

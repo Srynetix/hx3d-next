@@ -8,6 +8,8 @@
 namespace hx3d {
 namespace Graphics {
 
+U32 Shader::m_currentProgramID = 0;
+
 Shader::Shader():
   m_vertexShaderCode(""),
   m_fragmentShaderCode(""),
@@ -26,7 +28,7 @@ void Shader::loadShader(const std::string& p_vertexShaderCode, const std::string
   compileProgram();
 }
 
-void Shader::loadShader(const std::string& p_pathToShaders) {
+void Shader::loadFromFile(const std::string& p_pathToShaders) {
   const auto& logger = HX3D_LOGGER(kGraphics);
 
   std::string vertex_path = p_pathToShaders + ".vert.glsl";
@@ -38,7 +40,20 @@ void Shader::loadShader(const std::string& p_pathToShaders) {
   Utils::File vertex_file = loader.syncLoad(vertex_path);
   Utils::File fragment_file = loader.syncLoad(fragment_path);
 
-  loadShader(vertex_file.getContent(), fragment_file.getContent());
+  loadShader(vertex_file.getStrContent(), fragment_file.getStrContent());
+}
+
+void Shader::useProgram() {
+  if (m_currentProgramID != m_programID) {
+    glUseProgram(m_programID);
+
+    HX3D_LOGGER(kGraphicsLowLevel).debug("Shader %u active.", m_programID);
+    m_currentProgramID = m_programID;
+  }
+}
+
+GLint Shader::getAttributeLocation(const std::string p_attribute) const {
+  return glGetAttribLocation(m_programID, p_attribute.c_str());
 }
 
 void Shader::compileSubShader(U32& p_shaderId, GLenum p_type, const std::string& p_content) {
@@ -75,6 +90,7 @@ void Shader::compileProgram() {
 
   glAttachShader(m_programID, m_vertexID);
   glAttachShader(m_programID, m_fragmentID);
+  // glBindFragDataLocation(m_programID, 0, "outColor");
   glLinkProgram(m_programID);
 
   GLint error(0);
@@ -92,6 +108,13 @@ void Shader::compileProgram() {
 
     delete[] error_msg;
     glDeleteProgram(m_programID);
+  }
+}
+
+void Shader::disablePrograms() {
+  if (m_currentProgramID != 0) {
+    glUseProgram(0);
+    m_currentProgramID = 0;
   }
 }
 

@@ -1,5 +1,4 @@
 #include <Engine/Graphics/OpenGLContext.hpp>
-#include <Engine/Graphics/GLHeaders.hpp>
 
 #include <Engine/Debug/Logging.hpp>
 
@@ -22,6 +21,14 @@ void OpenGLContext::setMultisampleSamples(const U8 p_value) {
 
 void OpenGLContext::setMultisampleBuffers(const U8 p_value) {
   m_attrMultisampleBuffers = p_value;
+}
+
+void OpenGLContext::enableFlag(const GLenum p_flag) {
+  glEnable(p_flag);
+}
+
+void OpenGLContext::disableFlag(const GLenum p_flag) {
+  glDisable(p_flag);
 }
 
 void OpenGLContext::createContext(SDL_Window* p_window) {
@@ -66,6 +73,13 @@ void OpenGLContext::setUp() {
 
 void OpenGLContext::tearDown() {
   SDL_GL_DeleteContext(m_context);
+}
+
+void OpenGLContext::checkForErrors() {
+  auto error = glGetError();
+  if (error != GL_NO_ERROR) {
+    HX3D_LOGGER(kGraphics).error("GL ERROR: %lu", error);
+  }
 }
 
 ///////////////////////

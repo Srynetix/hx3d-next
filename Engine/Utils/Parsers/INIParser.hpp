@@ -1,10 +1,7 @@
 #pragma once
 
-#include <Engine/Utils/Conversion.hpp>
-#include <Engine/Core/Exceptions/KeyNotFound.hpp>
-
-#include <map>
-#include <vector>
+#include <Engine/Core/Types.hpp>
+#include <Engine/Text/Conversion.hpp>
 
 namespace hx3d {
 namespace Utils {
@@ -30,21 +27,21 @@ class INIParser {
 
 public:
   INIParser(const std::string& p_content = "");
+  ~INIParser();
+
   void parse(const std::string& p_content);
 
   template <class Type>
-  Type extract(const std::string& p_section, const std::string& p_key) const;
+  Type extract(const std::string& p_section, const std::string& p_key) const {
+    return Text::Convert<Type>(extract_value(p_section, p_key));
+  }
 
 private:
-  std::string m_currentSection;
-  std::map<std::string, std::map<std::string, std::string>> m_definitions;
+  struct Impl;
+  std::unique_ptr<Impl> m_impl;
 
-  void handleLine(const std::string& p_line);
-  std::vector<std::string> split(const std::string& p_line, const char p_delim);
-  std::string trim(const std::string& p_line);
+  const std::string& INIParser::extract_value(const std::string& p_section, const std::string& p_key) const;
 };
 
 }
 }
-
-#include <Engine/Utils/Parsers/INIParser.inl.hpp>

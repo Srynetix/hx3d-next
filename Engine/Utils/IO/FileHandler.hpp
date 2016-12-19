@@ -1,40 +1,29 @@
 #pragma once
 
+#include <Engine/Utils/Memory/SmartPtrs.hpp>
 #include <Engine/Utils/IO/File.hpp>
-
-#include <thread>
-#include <mutex>
-#include <memory>
 
 namespace hx3d {
 namespace Utils {
 
-template <bool Async>
 class FileHandler {
 public:
   FileHandler();
   ~FileHandler();
 
-  void startLoading(const std::string& p_path);
+  void startSyncLoading(const std::string& p_path, const File::ContentType p_type = File::kASCII);
+  void startAsyncLoading(const std::string& p_path, const File::ContentType p_type = File::kASCII);
 
   bool isFileReady() const;
-  File getFile();
+  File&& consumeFile();
 
 private:
-  bool m_ready;
-  File m_file;
+  HX3D_PIMPL
 
-  mutable std::thread m_thread;
-  mutable std::mutex m_mutex;
-
-  void loadFile(const std::string& p_path);
+  void loadFile(const std::string& p_path, const File::ContentType p_type);
 };
 
-typedef FileHandler<true>                 AsyncFileHandler;
-typedef FileHandler<false>                SyncFileHandler;
-typedef std::unique_ptr<AsyncFileHandler> AsyncFileHandlerPtr;
+using FileHandlerPtr = std::unique_ptr<FileHandler>;
 
 }
 }
-
-#include <Engine/Utils/IO/FileHandler.inl.hpp>

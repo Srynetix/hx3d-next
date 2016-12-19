@@ -1,6 +1,8 @@
 #include <Engine/Utils/Parsers/INIParser.hpp>
+#include <Engine/Utils/Memory/SmartPtrs.hpp>
 
 #include <Engine/Debug/Logging.hpp>
+#include <Engine/Core/Exceptions/KeyNotFound.hpp>
 
 #include <sstream>
 #include <iostream>
@@ -8,28 +10,42 @@
 #include <cctype>
 #include <algorithm>
 
+#include <map>
+#include <vector>
+
 namespace hx3d {
 namespace Utils {
 
-INIParser::INIParser(const std::string& p_content)
+struct INIParser::Impl {
+  std::string m_currentSection;
+  std::map<std::string, std::map<std::string, std::string>> m_definitions;
+
+  void handleLine(const std::string& p_line);
+  std::string trim(const std::string& p_line);
+	std::vector<std::string> split(const std::string& p_line, const char p_delim);
+  const std::string& extract_value(const std::string& p_section, const std::string& p_key);
+};
+
+INIParser::INIParser(const std::string& p_content):
+	m_impl(Utils::MakeUniquePtr<Impl>())
 {
 	if (p_content.size() > 0) {
 		parse(p_content);
 	}
 }
 
-void INIParser::parse(const std::string& p_content) {
-	const auto& logger = HX3D_LOGGER(kUtils);
+INIParser::~INIParser() = default;
 
+void INIParser::parse(const std::string& p_content) {
 	std::istringstream iss(p_content);
 	std::string current_line;
 
 	while (std::getline(iss, current_line)) {
-		handleLine(current_line);
+		m_impl->handleLine(current_line);
 	}
 }
 
-std::vector<std::string> INIParser::split(const std::string& p_line, const char p_delim) {
+std::vector<std::string> INIParser::Impl::split(const std::string& p_line, const char p_delim) {
 	std::vector<std::string> result;
 
 	size_t i = 0;
@@ -55,14 +71,14 @@ std::vector<std::string> INIParser::split(const std::string& p_line, const char 
 	return result;
 }
 
-std::string INIParser::trim(const std::string& p_line)
+std::string INIParser::Impl::trim(const std::string& p_line)
 {
 	auto wsfront = std::find_if_not(p_line.begin(), p_line.end(), [](int c) {return std::isspace(c); });
 	auto wsback = std::find_if_not(p_line.rbegin(), p_line.rend(), [](int c) {return std::isspace(c); }).base();
 	return (wsback <= wsfront ? std::string() : std::string(wsfront, wsback));
 }
 
-void INIParser::handleLine(const std::string& p_line) {
+void INIParser::Impl::handleLine(const std::string& p_line) {
 	const auto& logger = HX3D_LOGGER(kUtils);
 	size_t line_size = p_line.size();
 	size_t i = 0;
@@ -102,6 +118,18 @@ void INIParser::handleLine(const std::string& p_line) {
 
 		m_definitions[m_currentSection][k] = v;
 	}
+}
+
+const std::string& INIParser::extract_value(const std::string& p_section, const std::string& p_key) const {
+	const auto& section = m_impl->m_definitions.find(p_section);
+	if (section == m_impl->m_definitions.cend())
+		throw Exceptions::KeyNotFound<INIParser, const std::string&>(p_section, "Section lookup");
+
+	const auto& key = section->second.find(p_key);
+	if (key == section->second.cend())
+		throw Exceptions::KeyNotFound<INIParser, const std::string&>(p_key, "Key lookup");
+
+	return key->second;
 }
 
 }

@@ -14,7 +14,12 @@ class Logging {
 public:
   enum Category {
     kWindow = 0,
+
     kGraphics,
+    kGraphicsLowLevel,
+    kFont,
+    kResources,
+
     kCore,
     kGame,
     kTests,
@@ -42,5 +47,6 @@ typedef Utils::SingletonHolder<Logging> SLogging;
 }
 }
 
-
-#define HX3D_LOGGER(e) hx3d::Debug::SLogging::Instance().getLogger(hx3d::Debug::Logging::##e)
+#ifndef HX3D_LOGGER
+  #define HX3D_LOGGER(e) hx3d::Debug::SLogging::Instance().getLogger(hx3d::Debug::Logging::##e)
+#endif

@@ -5,3 +5,6 @@ add_subdirectory(StackWalker)
 endif()
 
 add_subdirectory(libepoxy-master)
+add_subdirectory(stb)
+add_subdirectory(freetype-2.7)
+add_subdirectory(miniz-114)

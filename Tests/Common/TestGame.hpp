@@ -6,12 +6,10 @@
 using namespace hx3d;
 
 class TestGame: public Window::Game {
-public:
-  TestGame();
-
 protected:
   virtual void onCreate() override;
   virtual void onDispose() override;
+  virtual void onRender() override;
 
 private:
   TestScreen m_testScreen;

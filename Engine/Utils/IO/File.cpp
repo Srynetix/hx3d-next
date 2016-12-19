@@ -1,4 +1,5 @@
 #include <Engine/Utils/IO/File.hpp>
+#include <Engine/Debug/Logging.hpp>
 #include <Engine/Core/Exceptions/FileNotFound.hpp>
 
 #include <fstream>
@@ -8,55 +9,93 @@ namespace hx3d {
 namespace Utils {
 
 File::File():
-  m_data(""),
-  m_size(0)
+  m_data(nullptr),
+  m_string(""),
+  m_size(0),
+  m_type(kBinary)
   {}
 
-File::~File() {
+File::~File() {}
+
+File::File(File&& p_file) {
+  m_size = p_file.m_size;
+  m_data = p_file.m_data;
+  m_string = p_file.m_string;
+  m_type = p_file.m_type;
+
+  p_file.m_size = 0;
+  p_file.m_data = nullptr;
+  p_file.m_string = "";
 }
 
-File::File(const File& p_file):
-  m_data(p_file.m_data), m_size(p_file.m_size)
-  {}
-
-File& File::operator=(const File& p_file) {
+File& File::operator=(File&& p_file) {
   if (&p_file != this) {
-    m_data = p_file.m_data;
     m_size = p_file.m_size;
+    m_data = p_file.m_data;
+    m_string = p_file.m_string;
+    m_type = p_file.m_type;
+
+    p_file.m_size = 0;
+    p_file.m_data = nullptr;
+    p_file.m_string = "";
   }
 
   return *this;
 }
 
-const std::string& File::getContent() const {
+const std::string& File::getStrContent() const {
+  return m_string;
+}
+
+char* File::getContent() const {
   return m_data;
+}
+
+unsigned char* File::getUContent() const {
+  return reinterpret_cast<unsigned char*>(m_data);
 }
 
 const size_t File::getSize() const {
   return m_size;
 }
 
-File File::loadTextFile(const std::string& p_path) {
+void File::setRawValues(char* p_data, const size_t p_size, const ContentType p_type) {
+  m_data = p_data;
+  m_type = p_type;
+  m_size = p_size;
+
+  m_string = std::string(m_data, m_size);
+}
+
+File File::loadFile(const std::string& p_path, const ContentType p_type) {
+  File ofile;
   std::string path(getAssetsPath() + p_path);
 
-  std::ifstream file(path);
+  std::ifstream file(path, (p_type == kASCII ? std::ios::in : std::ios::binary | std::ios::ate));
   if (file) {
-    std::ostringstream oss("");
-    oss << file.rdbuf();
+    if (p_type == kASCII) {
+      std::ostringstream oss("");
+      oss << file.rdbuf();
+      ofile.m_string = oss.str();
+      ofile.m_size = ofile.m_string.size();
 
-    std::string content = oss.str();
+    } else {
+      ofile.m_size = file.tellg();
+      ofile.m_data = new char[ofile.m_size];
 
-    File ofile;
-    ofile.m_size = content.size();
-    ofile.m_data.resize(content.size());
-    ofile.m_data = content;
+      file.seekg(0, std::ios::beg);
+      file.read(ofile.m_data, ofile.m_size);
+      file.close();
 
-    file.close();
+      ofile.m_string = std::string(ofile.m_data, ofile.m_size);
+    }
 
-    return ofile;
+  } else {
+    throw Exceptions::FileNotFound(path);
   }
 
-  throw Exceptions::FileNotFound(path);
+  ofile.m_type = p_type;
+  return ofile;
 }
 
 std::string File::getAssetsPath() {

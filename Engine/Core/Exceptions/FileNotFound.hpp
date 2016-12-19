@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Engine/Core/Exceptions/Exception.hpp>
-#include <Engine/Utils/Format.hpp>
+#include <Engine/Text/Format.hpp>
 
 namespace hx3d {
 namespace Exceptions {
@@ -12,7 +12,7 @@ public:
     Exception(), m_file(p_file) {}
 
   virtual const std::string message() const override {
-    std::string msg = Utils::Format("File not found: `%s`", m_file);
+    std::string msg = Text::Format("File not found: `%s`", m_file);
     return msg;
   }
 

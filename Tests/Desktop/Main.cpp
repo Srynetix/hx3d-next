@@ -5,8 +5,9 @@ int main() {
 	using namespace hx3d;
 
 	Core::Engine engine;
-	TestGame game;
+	engine.bootEngine();
 
+	TestGame game;	
 	engine.runGame(&game);
 
 	return 0;

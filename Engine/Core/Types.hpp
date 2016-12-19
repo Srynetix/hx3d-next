@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <cfloat>
 #include <typeinfo>
+#include <string>
+#include <memory>
 
 namespace hx3d {
 
@@ -20,13 +22,13 @@ typedef float     F32;
 typedef double    F64;
 
 template <class Type>
-const char* getTypeName() {
+const char* GetTypename() {
   const std::type_info& type = typeid(Type);
   return type.name();
 }
 
 template <class Type>
-const char* getTypeName(const Type& t) {
+const char* GetTypename(const Type& t) {
   const std::type_info& type = typeid(t);
   return type.name();
 }

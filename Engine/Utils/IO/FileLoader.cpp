@@ -7,18 +7,18 @@ namespace Utils {
 FileLoader::FileLoader() {}
 FileLoader::~FileLoader() {}
 
-AsyncFileHandlerPtr FileLoader::asyncLoad(const std::string& p_path) {
-  auto loader = MakeUniquePtr<AsyncFileHandler>();
-  loader->startLoading(p_path);
+FileHandlerPtr FileLoader::asyncLoad(const std::string& p_path, const File::ContentType p_type) {
+  auto loader = MakeUniquePtr<FileHandler>();
+  loader->startAsyncLoading(p_path, p_type);
 
   return loader;
 }
 
-File FileLoader::syncLoad(const std::string& p_path) {
-  SyncFileHandler loader;
-  loader.startLoading(p_path);
+File FileLoader::syncLoad(const std::string& p_path, const File::ContentType p_type) {
+  FileHandler loader;
+  loader.startSyncLoading(p_path, p_type);
 
-  return loader.getFile();
+  return loader.consumeFile();
 }
 
 }
