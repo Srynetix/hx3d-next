@@ -8,6 +8,9 @@ namespace Graphics {
 class PCTQuadGeometry: public PCTIndexGeometry {
 public:
   virtual void initializeBuffers() override;
+
+  void setFramebufferTextureCoordinates();
+  void setDefaultTextureCoordinates();
 };
 
 }

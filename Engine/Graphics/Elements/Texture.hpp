@@ -2,6 +2,7 @@
 
 #include <Engine/Graphics/GLHeaders.hpp>
 #include <Engine/Utils/IO/File.hpp>
+#include <Engine/Utils/Memory/SmartPtrs.hpp>
 #include <Engine/Utils/Uncopyable.hpp>
 #include <Engine/Core/Types.hpp>
 
@@ -36,14 +37,17 @@ public:
   ~Texture();
 
   void generateID();
+  const U32 getID() const;
   void bindToContext(const bool p_force = false);
 
+  void generateColorBuffer(const U32 p_width, const U32 p_height);
   void generateFontTexture(const U32 p_width, const U32 p_height);
   void loadFromFile(const std::string& p_pathToFile);
 
   void setFilter(const FilterParameter p_param, const FilterValue p_value);
 
   static Texture& Blank();
+  static const Utils::SharedPtr<Texture>& BlankShared();
 
   static U32 getLastBound();
   static void disableTextures();
@@ -55,7 +59,7 @@ private:
   bool m_loaded;
 
   static U32 m_currentTextureID;
-  static Texture m_blankTexture;
+  static Utils::SharedPtr<Texture> m_blankTexture;
 
   static void generateBlankTexture();
 };

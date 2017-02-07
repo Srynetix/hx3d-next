@@ -2,8 +2,9 @@
 
 #include <Engine/Core/Root.hpp>
 #include <Engine/Window/Window.hpp>
-#include <Engine/Window/Game.hpp>
 #include <Engine/Debug/Logging.hpp>
+
+#include <Engine/Game/Game.hpp>
 
 #include <Engine/Utils/Parsers/INIParser.hpp>
 #include <Engine/Utils/Parsers/INIHandler.hpp>
@@ -39,7 +40,11 @@ void WindowModule::tearDown() {
   SDL_Quit();
 }
 
-void WindowModule::runGame(Game* p_game) {
+Window& WindowModule::getWindow() {
+  return *m_window;
+}
+
+void WindowModule::runGame(Game::Game* p_game) {
   m_window->runGame(p_game);
 }
 

@@ -1,7 +1,8 @@
 #include <Engine/Core/Engine.hpp>
 #include <Engine/Core/Root.hpp>
 
-#include <Engine/Window/Game.hpp>
+#include <Engine/Game/Game.hpp>
+
 #include <Engine/Window/WindowModule.hpp>
 
 #include <Engine/Utils/Parsers/INIHandler.hpp>
@@ -37,7 +38,7 @@ void Engine::bootEngine() {
   }
 }
 
-void Engine::runGame(Window::Game* p_game) {
+void Engine::runGame(Game::Game* p_game) {
   try {
     auto& windowModule = Root::Instance().getModule<Window::WindowModule>();
 

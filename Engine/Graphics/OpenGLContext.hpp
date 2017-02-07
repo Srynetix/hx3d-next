@@ -2,6 +2,7 @@
 
 #include <Engine/Core/Types.hpp>
 #include <Engine/Graphics/GLHeaders.hpp>
+#include <Engine/Graphics/Elements/Color.hpp>
 
 #include <SDL.h>
 
@@ -32,6 +33,9 @@ public:
   void setViewport(const U16 p_width, const U16 p_height);
   void createContext(SDL_Window* p_window);
   void swapWindow(SDL_Window* p_window);
+  void clearWindow();
+
+  void setClearColor(const Color& p_color);
 
   static void checkForErrors();
 
@@ -46,6 +50,7 @@ private:
   U8 m_attrMultisampleSamples;
 
   SDL_GLContext m_context;
+  Color m_clearColor;
 };
 
 }

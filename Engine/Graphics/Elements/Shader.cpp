@@ -43,8 +43,8 @@ void Shader::loadFromFile(const std::string& p_pathToShaders) {
   loadShader(vertex_file.getStrContent(), fragment_file.getStrContent());
 }
 
-void Shader::useProgram() {
-  if (m_currentProgramID != m_programID) {
+void Shader::useProgram(bool p_force) {
+  if (m_currentProgramID != m_programID || p_force) {
     glUseProgram(m_programID);
 
     HX3D_LOGGER(kGraphicsLowLevel).debug("Shader %u active.", m_programID);

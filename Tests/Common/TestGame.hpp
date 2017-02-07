@@ -1,16 +1,20 @@
 #pragma once
 
-#include <Engine/Window/Game.hpp>
-#include <Tests/Common/TestScreen.hpp>
+#include <Engine/Game/Game.hpp>
+#include <Tests/Common/Scenes/TestScene.hpp>
+#include <Tests/Common/Scenes/GUIScene.hpp>
+#include <Tests/Common/Scenes/TweenScene.hpp>
 
 using namespace hx3d;
 
-class TestGame: public Window::Game {
+class TestGame: public Game::Game {
 protected:
   virtual void onCreate() override;
   virtual void onDispose() override;
   virtual void onRender() override;
 
 private:
-  TestScreen m_testScreen;
+  // TestScene m_testScene;
+  // GUIScene m_guiScene;
+  TweenScene m_tweenScene;
 };

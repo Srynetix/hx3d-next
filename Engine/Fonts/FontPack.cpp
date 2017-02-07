@@ -42,6 +42,12 @@ void FontPack::loadFromFile(const std::string& p_pathToFile) {
   }
 }
 
+void FontPack::setDefaultSize(const U16 p_height, const U16 p_deviceWidth, const U16 p_deviceHeight) {
+  for (auto& font: m_impl->m_fonts) {
+    font->updateSize(p_height, p_deviceWidth, p_deviceHeight);
+  }
+}
+
 FontData FontPack::getCharacterData(const U32 p_code) const {
   assert(m_impl->m_fonts.size() > 0);
 

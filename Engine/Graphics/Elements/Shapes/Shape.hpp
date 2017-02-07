@@ -6,13 +6,16 @@
 namespace hx3d {
 namespace Graphics {
 
+class BaseGeometry;
 class Shape {
 public:
   Shape();
+
   void setColor(const Color color);
   const Color getColor() const;
 
-  virtual void draw(const Shader& p_shader) = 0;
+  virtual void draw(Shader& p_shader) = 0;
+  virtual BaseGeometry& getGeometry() = 0;
 
 private:
   virtual void applyColor() = 0;

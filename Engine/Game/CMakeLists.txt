@@ -1,7 +1,11 @@
 project(hx3d-game)
 
 set(SOURCES
-  Transform.cpp
+  Game.cpp
+
+  Scene.cpp
+  SceneLoader.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCES})
+target_link_libraries(${PROJECT_NAME} Box2D)

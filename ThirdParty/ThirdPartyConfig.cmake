@@ -9,6 +9,7 @@ set(DEP_PATH_STB      "ThirdParty/stb")
 set(DEP_PATH_FT       "ThirdParty/freetype-2.7")
 set(DEP_PATH_UTFCPP   "ThirdParty/utfcpp-master")
 set(DEP_PATH_ARCHIVE  "ThirdParty/miniz-114")
+set(DEP_PATH_BOX2D    "ThirdParty/Box2D")
 
 # SDL2
 include_directories(${PROJECT_SOURCE_DIR}/${DEP_PATH_SDL2}/include)
@@ -39,3 +40,7 @@ include_directories(${PROJECT_SOURCE_DIR}/${DEP_PATH_UTFCPP}/source)
 # miniz
 include_directories(${PROJECT_SOURCE_DIR}/${DEP_PATH_ARCHIVE})
 link_directories(${PROJECT_BINARY_DIR}/${DEP_PATH_ARCHIVE}/${CMAKE_BUILD_TYPE})
+
+# Box2D
+include_directories(${PROJECT_SOURCE_DIR}/${DEP_PATH_BOX2D}/Box2D)
+link_directories(${PROJECT_BINARY_DIR}/${DEP_PATH_BOX2D}/${CMAKE_BUILD_TYPE})

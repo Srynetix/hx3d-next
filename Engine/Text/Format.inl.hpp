@@ -58,12 +58,12 @@ inline std::string Format(const std::string& p_str, const S32 p_val, Args&&... p
 
 template <class... Args>
 inline std::string Format(const std::string& p_str, const S64 p_val, Args&&... p_args) {
-  return Format_(p_str, p_val, std::regex("(%ld||\\{\\})"), p_args...);
+  return Format_(p_str, p_val, std::regex("(%ld|\\{\\})"), p_args...);
 }
 
 template <class... Args>
 inline std::string Format(const std::string& p_str, const U8 p_val, Args&&... p_args) {
-  return Format_(p_str, p_val, std::regex("(%(u|lu)||\\{\\})"), p_args...);
+  return Format_(p_str, p_val, std::regex("(%(u|lu)|\\{\\})"), p_args...);
 }
 
 template <class... Args>

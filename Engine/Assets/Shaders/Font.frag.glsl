@@ -2,7 +2,7 @@
 precision mediump float;
 #endif
 
-in vec2 v_texture;
+varying vec2 v_texture;
 
 uniform sampler2D u_texture;
 uniform vec4 u_color;

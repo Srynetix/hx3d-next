@@ -4,7 +4,7 @@
 
 namespace hx3d {
 
-namespace Window {
+namespace Game {
   class Game;
 }
 
@@ -16,7 +16,7 @@ public:
   ~Engine();
 
   void bootEngine();
-  void runGame(Window::Game* p_game);
+  void runGame(Game::Game* p_game);
 
 private:
   HX3D_PIMPL

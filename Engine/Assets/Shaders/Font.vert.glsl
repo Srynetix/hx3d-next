@@ -2,11 +2,15 @@
 precision mediump float;
 #endif
 
-in vec4 a_chardata;
-out vec2 v_texture;
+attribute vec4 a_chardata;
+
+uniform mat4 u_view;
+uniform mat4 u_projection;
+
+varying vec2 v_texture;
 
 void main() {
   v_texture = a_chardata.zw;
 
-  gl_Position = vec4(a_chardata.xy, 0, 1);
+  gl_Position = u_projection * u_view * vec4(a_chardata.xy, 0, 1);
 }

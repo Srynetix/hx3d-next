@@ -25,6 +25,8 @@ public:
     kTests,
     kUtils,
     kIO,
+    kUI,
+    
     kUnknown
   };
 

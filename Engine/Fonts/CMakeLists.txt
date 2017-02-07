@@ -10,4 +10,4 @@ set(SOURCES
 )
 
 add_library(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} freetype hx3d-text)
+target_link_libraries(${PROJECT_NAME} freetype)

@@ -28,6 +28,24 @@ FontRenderer::FontRenderer():
 
 FontRenderer::~FontRenderer() {}
 
+void FontRenderer::setProjectionMatrix(const glm::mat4& p_matrix) {
+  m_impl->m_shader.useProgram();
+  m_impl->m_shader.sendUniform("u_projection", p_matrix);
+}
+
+void FontRenderer::setViewMatrix(const glm::mat4& p_matrix) {
+  m_impl->m_shader.useProgram();
+  m_impl->m_shader.sendUniform("u_view", p_matrix);
+}
+
+glm::vec2 FontRenderer::computeLength(const Font& p_font, const std::string& p_string, const F32 p_sx, const F32 p_sy) {
+  return m_impl->m_atlas.computeLength(p_font, p_string, p_sx, p_sy);
+}
+
+glm::vec2 FontRenderer::computeLength(const FontPack& p_fontPack, const std::string& p_string, const F32 p_sx, const F32 p_sy) {
+  return m_impl->m_atlas.computeLength(p_fontPack, p_string, p_sx, p_sy);
+}
+
 void FontRenderer::renderText(const Font& p_font, const std::string& p_string,
                               const F32 p_x, const F32 p_y,
                               const F32 p_sx, const F32 p_sy, const Graphics::Color p_color) {
@@ -44,8 +62,6 @@ void FontRenderer::renderText(const FontPack& p_fontPack, const std::string& p_s
 
   m_impl->m_shader.useProgram();
   m_impl->m_shader.sendUniform("u_color", p_color);
-
-
 
   m_impl->m_atlas.renderText(p_fontPack, p_string, p_x, p_y, p_sx, p_sy);
 }

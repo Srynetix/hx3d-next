@@ -4,7 +4,15 @@ project(hx3d)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-set(CMAKE_BUILD_TYPE Debug)
+option(BUILD_GAME     "Build the game"   ON)
+option(BUILD_TESTS    "Build the tests"  ON)
+option(BUILD_RELEASE  "Build release"    OFF)
+
+if(BUILD_RELEASE)
+  set(CMAKE_BUILD_TYPE Release)
+else()
+  set(CMAKE_BUILD_TYPE Debug)
+endif()
 
 add_subdirectory(ThirdParty)
 include(ThirdParty/ThirdPartyConfig.cmake)
@@ -19,4 +27,11 @@ include_directories(
 )
 
 add_subdirectory(Engine)
-add_subdirectory(Tests)
+
+if(BUILD_TESTS)
+  add_subdirectory(Tests)
+endif()
+
+if (BUILD_GAME)
+  add_subdirectory(SmashGame)
+endif()

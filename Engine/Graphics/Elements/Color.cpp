@@ -90,12 +90,27 @@ const glm::vec4& Color::getFloatValues() const {
   return m_floatValues;
 }
 
-Color Color::GenerateRandomColor(bool randomAlpha) {
+Color Color::GenerateRandomColor(bool p_randomAlpha) {
   return Color(
     Math::Random::randrange(0, 255),
     Math::Random::randrange(0, 255),
     Math::Random::randrange(0, 255),
-    randomAlpha ? Math::Random::randrange(0, 255) : 255
+    p_randomAlpha ? Math::Random::randrange(0, 255) : 255
+  );
+}
+
+Color Color::RandomIncrement(const Color& p_color) {
+  return Color(
+    Math::Random::randrange(0, 1) == 0
+      ? (p_color.red() < 255 ? p_color.red() + 1 : p_color.red())
+      : (p_color.red() > 0 ? p_color.red() - 1 : p_color.red()),
+    Math::Random::randrange(0, 1) == 0
+      ? (p_color.green() < 255 ? p_color.green() + 1 : p_color.green())
+      : (p_color.green() > 0 ? p_color.green() - 1 : p_color.green()),
+    Math::Random::randrange(0, 1) == 0
+      ? (p_color.blue() < 255 ? p_color.blue() + 1 : p_color.blue())
+      : (p_color.blue() > 0 ? p_color.blue() - 1 : p_color.blue()),
+    p_color.alpha()
   );
 }
 
@@ -118,6 +133,8 @@ Color Color::Red = Color(255, 0, 0, 255);
 Color Color::Green = Color(0, 255, 0, 255);
 Color Color::Blue = Color(0, 0, 255, 255);
 Color Color::Gray = Color(127, 127, 127, 255);
+Color Color::LightGray = Color(200, 200, 200, 255);
+Color Color::Pink = Color(255, 51, 255, 255);
 
 }
 }

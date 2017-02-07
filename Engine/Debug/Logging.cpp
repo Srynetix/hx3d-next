@@ -19,6 +19,7 @@ Logging::Logging() {
   m_loggers[kTests]             = new Logger("Tests", Logger::kVerbose);
   m_loggers[kIO]                = new Logger("IO", Logger::kVerbose);
   m_loggers[kResources]         = new Logger("Resources", Logger::kVerbose);
+  m_loggers[kUI]                = new Logger("UI", Logger::kVerbose);
 }
 
 Logging::~Logging() {

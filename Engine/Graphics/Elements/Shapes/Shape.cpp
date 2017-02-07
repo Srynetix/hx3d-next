@@ -4,7 +4,7 @@ namespace hx3d {
 namespace Graphics {
 
 Shape::Shape():
-  m_color(Color::Black),
+  m_color(Color::White),
   m_colorDirty(true)
   {}
 

@@ -5,7 +5,7 @@ set(SOURCES
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} hx3d-tests-common hx3d-core hx3d-graphics hx3d-game)
+target_link_libraries(${PROJECT_NAME} hx3d-tests-common hx3d-core)
 
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.vcxproj.user"
 	"<?xml version=\"1.0\" encoding=\"utf-8\"?>     \

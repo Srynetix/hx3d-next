@@ -12,7 +12,12 @@ void TestGame::onCreate() {
   textureCache.loadFromFile("clouds", "Textures/Box.png");
   textureCache.loadFromFile("test", "Textures/Test2.bmp");
 
-  m_screenLoader.setCurrentScreen(&m_testScreen);
+  auto& fontPackCache = Root::Instance().getFontPackCache();
+  fontPackCache.loadFromFile("noto", "Fonts/Noto.zip");
+
+  // m_sceneLoader.setCurrentScene(&m_testScene);
+  // m_sceneLoader.setCurrentScene(&m_guiScene);
+  m_sceneLoader.setCurrentScene(&m_tweenScene);
 }
 
 void TestGame::onDispose() {

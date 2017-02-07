@@ -118,6 +118,38 @@ FontData& FontAtlas::storeAndFetchData(const Font& p_font, const U32 p_code) {
   return m_impl->m_fontData[p_code];
 }
 
+glm::vec2 FontAtlas::computeLength(const Font& p_font, const std::string& p_string, const F32 p_w, const F32 p_h) {
+  auto codes = Text::ToUTF32(p_string);
+
+  glm::vec2 length = {0, 0};
+  for (auto code: codes) {
+    auto& data = this->storeAndFetchData(p_font, code);
+
+    length.x += data.m_width;
+    length.y += data.m_rows;
+    length.x += data.m_advanceX * p_w;
+    length.y += data.m_advanceY * p_h;
+  }
+
+  return length;
+}
+
+glm::vec2 FontAtlas::computeLength(const FontPack& p_fontPack, const std::string& p_string, const F32 p_w, const F32 p_h) {
+  auto codes = Text::ToUTF32(p_string);
+
+  glm::vec2 length = {0, 0};
+  for (auto code: codes) {
+    auto& data = this->storeAndFetchData(p_fontPack, code);
+
+    length.x += data.m_width;
+    length.y = std::max(static_cast<F32>(data.m_rows), length.y);
+    length.x += data.m_advanceX * p_w;
+    length.y += data.m_advanceY * p_h;
+  }
+
+  return length;
+}
+
 void FontAtlas::renderText(const Font& p_font, const std::string& p_string, const F32 p_x, const F32 p_y, const F32 p_w, const F32 p_h) {
   auto codes = Text::ToUTF32(p_string);
   this->renderText(p_font, codes, p_x, p_y, p_w, p_h);
@@ -138,7 +170,14 @@ void FontAtlas::renderText(const FontPack& p_fontPack, const std::vector<U32>& p
   bindToContext();
   impl.m_buffer.clear();
 
+  auto& a_code = this->storeAndFetchData(p_fontPack, 89);
   for (auto code: p_codes) {
+    if (code == 10) { // \n
+      x = p_x;
+      y -= (a_code.m_rows * 1.5f) * p_h;
+      continue;
+    }
+
     auto& data = this->storeAndFetchData(p_fontPack, code);
 
     F32 x2 = x + data.m_left * p_w;
@@ -180,7 +219,14 @@ void FontAtlas::renderText(const Font& p_font, const std::vector<U32>& p_codes, 
   bindToContext();
   impl.m_buffer.clear();
 
+  auto& a_code = this->storeAndFetchData(p_font, 89);
   for (auto code: p_codes) {
+    if (code == 10) { // \n
+      x = p_x;
+      y -= (a_code.m_rows * 1.5f) * p_h;
+      continue;
+    }
+
     auto& data = this->storeAndFetchData(p_font, code);
 
     F32 x2 = x + data.m_left * p_w;

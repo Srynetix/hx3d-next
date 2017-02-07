@@ -11,7 +11,7 @@ Rectangle::Rectangle(): Shape() {
   m_geometry.uploadToGPU();
 }
 
-void Rectangle::draw(const Shader& p_shader) {
+void Rectangle::draw(Shader& p_shader) {
   if (m_colorDirty) {
     applyColor();
     m_colorDirty = false;
@@ -21,6 +21,10 @@ void Rectangle::draw(const Shader& p_shader) {
 
   m_geometry.linkToShader(p_shader);
   m_geometry.render();
+}
+
+QuadGeometry& Rectangle::getGeometry() {
+  return m_geometry;
 }
 
 void Rectangle::applyColor() {

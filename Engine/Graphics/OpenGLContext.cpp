@@ -46,6 +46,17 @@ void OpenGLContext::swapWindow(SDL_Window* p_window) {
   SDL_GL_SwapWindow(p_window);
 }
 
+void OpenGLContext::clearWindow() {
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void OpenGLContext::setClearColor(const Color& p_color) {
+  m_clearColor = p_color;
+  auto& floatColors = m_clearColor.getFloatValues();
+
+  glClearColor(floatColors.x, floatColors.y, floatColors.z, floatColors.w);
+}
+
 void OpenGLContext::setUp() {
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, m_attrDoubleBuffer);
 

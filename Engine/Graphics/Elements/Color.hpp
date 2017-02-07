@@ -28,7 +28,8 @@ public:
 
   const glm::vec4& getFloatValues() const;
 
-  static Color GenerateRandomColor(bool randomAlpha = false);
+  static Color GenerateRandomColor(bool p_randomAlpha = false);
+  static Color RandomIncrement(const Color& p_color);
 
   // Base colors
   static Color Black;
@@ -37,6 +38,8 @@ public:
   static Color Green;
   static Color Blue;
   static Color Gray;
+  static Color LightGray;
+  static Color Pink;
 
 private:
   U8 m_r;

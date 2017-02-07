@@ -24,7 +24,7 @@ public:
   template <class Type>
   void sendUniform(const std::string& p_uniform, const Type&& p_value);
 
-  void useProgram();
+  void useProgram(bool p_force = false);
 
 private:
   std::string m_vertexShaderCode;

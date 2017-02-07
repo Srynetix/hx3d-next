@@ -11,7 +11,7 @@
 namespace hx3d {
 namespace Graphics {
 
-Texture Texture::m_blankTexture;
+Utils::SharedPtr<Texture> Texture::m_blankTexture;
 U32 Texture::m_currentTextureID = 0;
 
 Texture::Texture():
@@ -32,16 +32,51 @@ void Texture::generateID() {
   }
 }
 
+const U32 Texture::getID() const {
+  return m_id;
+}
+
 void Texture::bindToContext(const bool p_force) {
   if (p_force || m_currentTextureID != m_id) {
     glBindTexture(GL_TEXTURE_2D, m_id);
-    HX3D_LOGGER(kGraphicsLowLevel).debug("Texture %u active.", m_id);
+    HX3D_LOGGER(kGraphicsLowLevel).debug("Texture {} active.", m_id);
     m_currentTextureID = m_id;
   }
 }
 
+void Texture::generateColorBuffer(const U32 p_width, const U32 p_height) {
+  this->generateID();
+  m_width = p_width;
+  m_height = p_height;
+
+  U32 lastBound = m_currentTextureID;
+  glBindTexture(GL_TEXTURE_2D, m_id);
+
+  glTexImage2D(
+    GL_TEXTURE_2D,
+    0,
+    GL_RGBA,
+    p_width,
+    p_height,
+    0,
+    GL_RGBA,
+    GL_UNSIGNED_BYTE,
+    0
+  );
+
+  this->setFilter(kMinFilter, kNearest);
+  this->setFilter(kMagFilter, kNearest);
+  this->setFilter(kWrapS, kClampToEdge);
+  this->setFilter(kWrapT, kClampToEdge);
+
+  m_currentTextureID = lastBound;
+  glBindTexture(GL_TEXTURE_2D, lastBound);
+}
+
 void Texture::generateFontTexture(const U32 p_width, const U32 p_height) {
   this->generateID();
+  m_width = p_width;
+  m_height = p_height;
 
   U32 lastBound = m_currentTextureID;
   glBindTexture(GL_TEXTURE_2D, m_id);
@@ -88,8 +123,8 @@ void Texture::loadFromFile(const std::string& p_pathToFile) {
 
   this->setFilter(kMinFilter, kNearest);
   this->setFilter(kMagFilter, kNearest);
-  this->setFilter(kWrapS, kMirroredRepeat);
-  this->setFilter(kWrapT, kMirroredRepeat);
+  this->setFilter(kWrapS, kClampToEdge);
+  this->setFilter(kWrapT, kClampToEdge);
 
   m_currentTextureID = lastBound;
   glBindTexture(GL_TEXTURE_2D, lastBound);
@@ -117,16 +152,25 @@ U32 Texture::getLastBound() {
 ///////////////
 
 Texture& Texture::Blank() {
-  Texture& texture = m_blankTexture;
-  if (!texture.m_loaded) {
+  if (!m_blankTexture) {
     generateBlankTexture();
   }
 
-  return texture;
+  return *m_blankTexture;
 }
 
+const Utils::SharedPtr<Texture>& Texture::BlankShared() {
+  if (!m_blankTexture) {
+    generateBlankTexture();
+  }
+
+  return m_blankTexture;
+}
+
+
 void Texture::generateBlankTexture() {
-  Texture& texture = m_blankTexture;
+  m_blankTexture = Utils::MakeSharedPtr<Texture>();
+  Texture& texture = *m_blankTexture;
 
   texture.m_width = 1;
   texture.m_height = 1;

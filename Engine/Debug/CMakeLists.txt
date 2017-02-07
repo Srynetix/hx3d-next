@@ -8,4 +8,4 @@ set(SOURCES
 )
 
 add_library(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} hx3d-utils StackWalker)
+target_link_libraries(${PROJECT_NAME} StackWalker)

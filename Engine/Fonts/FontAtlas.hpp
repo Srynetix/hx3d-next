@@ -5,6 +5,8 @@
 #include <Engine/Utils/Memory/SmartPtrs.hpp>
 
 #include <vector>
+#include <glm/vec2.hpp>
+
 
 namespace hx3d {
 
@@ -29,6 +31,9 @@ public:
 
   FontData& storeAndFetchData(const Font& p_font, const U32 p_code);
   FontData& storeAndFetchData(const FontPack& p_fontPack, const U32 p_code);
+
+  glm::vec2 computeLength(const Font& p_font, const std::string& p_string, const F32 p_w, const F32 p_h);
+  glm::vec2 computeLength(const FontPack& p_fontPack, const std::string& p_string, const F32 p_w, const F32 p_h);
 
   void renderText(const Font& p_font, const std::string& p_string, const F32 p_x, const F32 p_y, const F32 p_w, const F32 p_h);
   void renderText(const Font& p_font, const std::vector<U32>& p_codes, const F32 p_x, const F32 p_y, const F32 p_w, const F32 p_h);
