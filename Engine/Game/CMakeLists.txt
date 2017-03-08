@@ -5,6 +5,8 @@ set(SOURCES
 
   Scene.cpp
   SceneLoader.cpp
+
+  SceneGraph.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCES})

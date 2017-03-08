@@ -12,6 +12,7 @@ InputSystem::InputSystem() {
 }
 
 void InputSystem::registerHandler(InputHandler* p_handler) {
+  p_handler->p_system = this;
   m_handlers.push_back(p_handler);
 }
 
@@ -20,6 +21,7 @@ void InputSystem::removeHandler(InputHandler* p_handler) {
   if (res == m_handlers.end())
     return;
 
+  p_handler->p_system = nullptr;
   m_handlers.erase(res);
 }
 

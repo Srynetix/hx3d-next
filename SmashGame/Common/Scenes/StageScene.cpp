@@ -23,8 +23,10 @@
 #include <Engine/Fonts/FontPack.hpp>
 
 StageScene::StageScene():
-  m_world(b2Vec2(0.f, -10.f))
-{}
+  m_world(b2Vec2(0.f, -9.f))
+{
+  m_world.SetDebugDraw(&m_debugDraw);
+}
 
 void StageScene::onCreate() {
   const auto& logger = HX3D_LOGGER(kTests);
@@ -54,12 +56,23 @@ void StageScene::onCreate() {
   window.getContext().setClearColor(Graphics::Color::Black);
   window.getInput().registerHandler(&m_character);
 
+  m_character.getTransform().setPosition(220.f, 100.f);
   m_platform.getTransform().setScale(width / 1.5f, 10);
   m_platform.getTransform().setPosition(width / 2.f, 10);
+
+  m_platform.createBody(m_world);
+  m_character.createBody(m_world);
+
+  //////////////
+
+  m_sceneGraph.getRoot().createChild<Game::TestSceneNode>();
 }
 
 void StageScene::onUpdate(const F32 p_delta) {
-  m_character.update(p_delta);
+  m_platform.update(1.f/60.f);
+  m_character.update(1.f/60.f);
+
+  m_world.Step(1.f/60.f, 8, 3);
 }
 
 void StageScene::onRender() {
@@ -89,6 +102,7 @@ void StageScene::onRender() {
   auto fps = window.getCurrentFPS();
 
   m_fontRenderer.renderText(pack,
-    Text::Format("Hello.\nYou are on StageScene. Current FPS are {}.\nThis is a multiline sample text.💪🎅\n  Hello I am indented !", fps),
+    Text::Format("Hello.\nYou are on StageScene. Current FPS are {}.\nThis is a multiline sample text.💪🎅\n  Hello I am indented !\nCharacter velocity: X: {} Y: {}",
+    fps, m_character.m_body->GetLinearVelocity().x, m_character.m_body->GetLinearVelocity().y),
     10, height - 30.f, 1, 1, Graphics::Color::Pink);
 }
